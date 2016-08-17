@@ -5,7 +5,7 @@ var DocPlaylist = require('./docPlaylist.model');
 
 // Get list of docPlaylists
 exports.index = function(req, res) {
-  DocPlaylist.find().sort('-type').exec(function (err, docPlaylists) {
+  DocPlaylist.find().sort('+type').exec(function (err, docPlaylists) {
     if(err) { return handleError(res, err); }
     return res.status(200).json(docPlaylists);
   });
