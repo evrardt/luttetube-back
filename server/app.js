@@ -62,6 +62,7 @@ server.listen(config.port, config.ip, function () {
 				return -1;
 			return 0;
 		});
+		console.log(playlists);
 
 		if (channel === LUTTE_CHANNEL) {
 			var Place = require('./api/luttePlace/luttePlace.model');
