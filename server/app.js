@@ -47,21 +47,7 @@ server.listen(config.port, config.ip, function () {
 
 	getPlaylistsArray(LUTTE_CHANNEL, YOUTUBE_API_KEY);
 
-	function sortPlaylistsByDate(channel) {
-		playlists.sort(function(a,b) {
-			if (!b || !b.date) {
-				return 1;
-			}
-			if (!a || !a.date) {
-				return -1;
-			}
-			if (a.date.getTime() < b.date.getTime())
-				return 1;
-			if (a.date.getTime() > b.date.getTime())
-				return -1;
-			return 0;
-		});
-
+	function seedDbForPlaylists(channel) {
 		if (channel === LUTTE_CHANNEL) {
 			var Place = require('./api/luttePlace/luttePlace.model');
 			var Type = require('./api/lutteType/lutteType.model');
@@ -106,7 +92,7 @@ server.listen(config.port, config.ip, function () {
 				}
 			});
 		} else {
-			sortPlaylistsByDate(channel);
+			seedDbForPlaylists(channel);
 		}
 	}
 
