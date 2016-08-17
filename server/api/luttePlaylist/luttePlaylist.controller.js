@@ -5,7 +5,7 @@ var LuttePlaylist = require('./luttePlaylist.model');
 
 // Get list of luttePlaylists
 exports.index = function(req, res) {
-  LuttePlaylist.find(function (err, luttePlaylists) {
+  LuttePlaylist.find().sort('-date').exec(function (err, luttePlaylists) {
     if(err) { return handleError(res, err); }
     return res.status(200).json(luttePlaylists);
   });
