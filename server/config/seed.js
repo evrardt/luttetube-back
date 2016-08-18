@@ -5,7 +5,6 @@
 
 'use strict';
 // Insert seed models below
-var LutteVideo = require('../api/lutteVideo/lutteVideo.model');
 var User = require('../api/user/user.model');
 
 User.find({}).remove(function() {
