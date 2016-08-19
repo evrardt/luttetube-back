@@ -58,7 +58,7 @@ var all = {
   google: {
     clientID:     process.env.GOOGLE_ID || '594035240990-sd43k0rdjr624v6bmnltkv3r1pi0ah8f.apps.googleusercontent.com',
     clientSecret: process.env.GOOGLE_SECRET || 'TVJ9uIIn87x_LJLA65wVuZT3',
-    callbackURL:  (process.env.DOMAIN || 'http://localhost:3001') + '/auth/google/callback'
+    callbackURL:  (process.env.DOMAIN || 'http://luttetube.fr') + '/auth/google/callback'
   }
 };
 
