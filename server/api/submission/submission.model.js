@@ -6,7 +6,9 @@ var mongoose = require('mongoose'),
 var SubmissionSchema = new Schema({
   category: String,
   playlist: String,
-  link: [String],
+  playlistId: String,
+  link: String,
+  active: Boolean,
   type: String,
   newCategory: Boolean,
   newPlaylist: Boolean

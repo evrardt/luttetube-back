@@ -9,7 +9,6 @@ function requiredProcessEnv(name) {
   }
   return process.env[name];
 }
-
 // All configurations will extend these options
 // ============================================
 var all = {
@@ -19,7 +18,7 @@ var all = {
   root: path.normalize(__dirname + '/../../..'),
 
   // Server port
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 3001,
 
   // Server IP
   ip: process.env.IP || '0.0.0.0',
@@ -57,9 +56,9 @@ var all = {
   },
 
   google: {
-    clientID:     process.env.GOOGLE_ID || 'id',
-    clientSecret: process.env.GOOGLE_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
+    clientID:     process.env.GOOGLE_ID || '594035240990-sd43k0rdjr624v6bmnltkv3r1pi0ah8f.apps.googleusercontent.com',
+    clientSecret: process.env.GOOGLE_SECRET || 'TVJ9uIIn87x_LJLA65wVuZT3',
+    callbackURL:  (process.env.DOMAIN || 'http://localhost:3001') + '/auth/google/callback'
   }
 };
 

@@ -19,6 +19,7 @@ module.exports = function(app) {
   app.use('/api/doc/places', require('./api/docPlace'));
   app.use('/api/doc/types', require('./api/docType'));
   app.use('/api/users', require('./api/user'));
+  app.use('/api/youtube/playlists', require('./api/youtube/playlist'));
 
   app.use('/auth', require('./auth'));
   
