@@ -8,7 +8,8 @@ var router = express.Router();
 router
   .get('/', passport.authenticate('google', {
     failureRedirect: '/signup',
-    scope: ['https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.force-ssl','https://www.googleapis.com/auth/youtube.force-ssl'],
+    scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/userinfo.email'],
+    //scope: ['https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.force-ssl','https://www.googleapis.com/auth/youtube.force-ssl'],
     session: false
   }))
 
@@ -17,7 +18,7 @@ router
     session: false
   }), auth.setTokenCookie,
     function(req, res) {
-      res.redirect('/');
+      res.redirect('http://localhost:9001');
     }
   );
 
