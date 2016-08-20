@@ -81,7 +81,7 @@ server.listen(config.port, config.ip, function () {
 
 	function getGeoLocation(channel, id) {
 		if (id < placeArray.length) {
-			var url = "https://maps.googleapis.com/maps/api/geocode/json?key="+YOUTUBE_API_KEY+"&address="+placeArray[id].city;
+			var url = "https://maps.googleapis.com/maps/api/geocode/json?key="+GEOCODING_API_KEY+"&address="+placeArray[id].city;
 			request(url, function (error, response, body) {
 				if (!error && response.statusCode == 200) {
 					var json = JSON.parse(body);
