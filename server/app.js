@@ -25,7 +25,7 @@ if(config.seedDB) { require('./config/seed'); }
 
 // Setup server
 var app = express();
-app.use(cors({origin:'http://localhost:9001'}));
+app.use(cors({origin:'http://luttetube.fr'}));
 var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
