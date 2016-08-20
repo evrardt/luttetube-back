@@ -28,7 +28,7 @@ var app = express();
 var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
-app.use(cors({origin: 'http://localhost:3001'}));
+app.use(cors());
 
 var YOUTUBE_API_KEY = 'AIzaSyDrNpz22gF7QK2WJwjIKNBcJF3BabehGZQ';
 var GEOCODING_API_KEY = 'AIzaSyBeSiUAWHFrk2Ix0wG5APMjSZmh8rBe7Uo';
