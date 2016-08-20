@@ -28,7 +28,7 @@ var app = express();
 var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
-app.use(cors({origin: 'http://localhost:9001'}));
+app.use(cors({origin: 'http://localhost:3001'}));
 
 var YOUTUBE_API_KEY = 'AIzaSyDrNpz22gF7QK2WJwjIKNBcJF3BabehGZQ';
 var GEOCODING_API_KEY = 'AIzaSyBeSiUAWHFrk2Ix0wG5APMjSZmh8rBe7Uo';
@@ -81,7 +81,7 @@ server.listen(config.port, config.ip, function () {
 
 	function getGeoLocation(channel, id) {
 		if (id < placeArray.length) {
-			var url = "https://maps.googleapis.com/maps/api/geocode/json?key="+YOUTUBE_API_KEY+"&address="+placeArray[id].city;
+			var url = "https://maps.googleapis.com/maps/api/geocode/json?key="+GEOCODING_API_KEY+"&address="+placeArray[id].city;
 			request(url, function (error, response, body) {
 				if (!error && response.statusCode == 200) {
 					var json = JSON.parse(body);
