@@ -18,7 +18,7 @@ router
     session: false
   }), auth.setTokenCookie,
     function(req, res) {
-      res.redirect('http://localhost:9001');
+      res.redirect('http://luttetube.fr');
     }
   );
 
