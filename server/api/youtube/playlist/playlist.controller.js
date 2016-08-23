@@ -3,22 +3,28 @@
 var _ = require('lodash');
 var request = require('request');
 var auth = require('../../../auth/auth.service');
+var LuttePlaylist = require('../../../api/luttePlaylist/luttePlaylist.model');
+var DocPlaylist = require('../../../api/docPlaylist/docPlaylist.model');
 
 // Creates a new submission in the DB.
 exports.create = function(req, res) {
   var playlistId = "";
   //console.log(req.body.submission.playlistId);
   if (req.body.submission.type === 'Lutte') {
-    var LuttePlaylist = require('../../../api/luttePlaylist/luttePlaylist.model');
     LuttePlaylist.find({"id":req.body.submission.playlistId}, function(err, playlists) {
-        playlistId = playlists[0]._id;
-        addToYoutube();
+      if (err) {
+        res.status(400).json({ status : 'Internal serveur error' });
+      }
+      playlistId = playlists[0]._id;
+      addToYoutube();
     });
   } else if (req.body.submission.type === 'Documentaires') {
-    var DocPlaylist = require('../api/docPlaylist/docPlaylist.model');
     DocPlaylist.find({"id":req.body.submission.playlistId}, function(err, playlists) {
-        playlistId = playlists[0]._id;
-        addToYoutube();
+      if (err) {
+          res.status(400).json({ status : 'Internal serveur error' });
+      }
+      playlistId = playlists[0]._id;
+      addToYoutube();
     });
   }
 
@@ -39,7 +45,7 @@ exports.create = function(req, res) {
       }, function (error, response, body) {
       console.log(body);
       if (!error && response.statusCode == 200) {
-      
+
       }
     }).auth(null, null, true, '');
   }
