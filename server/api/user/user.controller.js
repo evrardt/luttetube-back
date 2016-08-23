@@ -15,7 +15,7 @@ var validationError = function(res, err) {
  */
 exports.index = function(req, res) {
   User.find({}, '-salt -hashedPassword', function (err, users) {
-    if(err) return res.status(500).send(err);
+    if (err) return res.status(500).send(err);
     res.status(200).json(users);
   });
 };
@@ -53,7 +53,7 @@ exports.show = function (req, res, next) {
  */
 exports.destroy = function(req, res) {
   User.findByIdAndRemove(req.params.id, function(err, user) {
-    if(err) return res.status(500).send(err);
+    if (err) return res.status(500).send(err);
     return res.status(204).send('No Content');
   });
 };
@@ -67,7 +67,7 @@ exports.changePassword = function(req, res, next) {
   var newPass = String(req.body.newPassword);
 
   User.findById(userId, function (err, user) {
-    if(user.authenticate(oldPass)) {
+    if (user.authenticate(oldPass)) {
       user.password = newPass;
       user.save(function(err) {
         if (err) return validationError(res, err);

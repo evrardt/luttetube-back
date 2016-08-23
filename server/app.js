@@ -83,12 +83,16 @@ server.listen(config.port, config.ip, function () {
 		if (id < placeArray.length) {
 			var url = "https://maps.googleapis.com/maps/api/geocode/json?key="+GEOCODING_API_KEY+"&address="+placeArray[id].city;
 			request(url, function (error, response, body) {
-				if (!error && response.statusCode == 200) {
+				if (error) {
+					console.log(error);
+					return;
+				} else if (body.results){
 					var json = JSON.parse(body);
+					console.log(json);
 					placeArray[id].location = json.results[0].geometry.location;
-				}
-				if (!error) {
 					getGeoLocation(channel, id+1);
+				} else {
+					console.log(JSON.parse(body).status ,JSON.parse(body).error_message);
 				}
 			});
 		} else {
@@ -106,61 +110,63 @@ server.listen(config.port, config.ip, function () {
 				if (!pageToken) {
 					pageToken = 0;
 				}
-				console.log("Youtube - Clé d'api valide pour "+pageToken);
-				var json = JSON.parse(body);
-				for (var i = 0; i < json.items.length; i++) {
-					var splitedTitle = json.items[i].snippet.title.split(" - ");
-					if (splitedTitle[0] && typeArray.indexOf(splitedTitle[0]) == -1) {
-                        typeArray.push(splitedTitle[0]);
-                    }
-                    if (splitedTitle[2]) {
-                        if (placeArray.length == 0) {
-                            placeArray.push({city:splitedTitle[2]});
-                        } else {
-                            var test = false;
-                            for (var j = 0; j < placeArray.length; j++) {
-                                if (placeArray[j].city == splitedTitle[2]) {
-                                    test = true;
-                                }
-                            }
-                            if (!test) {
-                                placeArray.push({city:splitedTitle[2]});
-                            }
-                        }
-                    }
-                    var date = null;
-                    var monthly = null;
-                    var place = null;
-                    if (splitedTitle[2]) {
-                        if (splitedTitle[1].split('/').length == 2) {
-                            date = new Date(splitedTitle[1]+"/01");
-                            monthly = true;
-                        } else {
-                            date = new Date(splitedTitle[1]);
-                            monthly = false;
-                        }
-                        place = splitedTitle[2];
-                    } else {
-                        place = splitedTitle[1];
-                    }
-                    playlists.push({
-                        id: json.items[i].id,
-                        channelId: json.items[i].snippet.channelId,
-                        description: json.items[i].snippet.description,
-                        title: json.items[i].snippet.title,
-                        type: splitedTitle[0],
-                        date: date,
-                        monthly: monthly,
-                        place: place,
-                        publishedAt: json.items[i].snippet.publishedAt,
-                        thumbnail: json.items[i].snippet.thumbnails.medium.url,
-                    });
-                }
-                if (json.nextPageToken) {
-                    getPlaylistsArray(channel, apiKey, json.nextPageToken);
-                } else {
-                    getGeoLocation(channel, 0);
-                }
+				if (JSON.parse(body).items) {
+					console.log("Youtube - Clé d'api valide pour "+pageToken);
+					var json = JSON.parse(body);
+					for (var i = 0; i < json.items.length; i++) {
+						var splitedTitle = json.items[i].snippet.title.split(" - ");
+						if (splitedTitle[0] && typeArray.indexOf(splitedTitle[0]) == -1) {
+							typeArray.push(splitedTitle[0]);
+						}
+						if (splitedTitle[2]) {
+							if (placeArray.length == 0) {
+								placeArray.push({city:splitedTitle[2]});
+							} else {
+								var test = false;
+								for (var j = 0; j < placeArray.length; j++) {
+									if (placeArray[j].city == splitedTitle[2]) {
+										test = true;
+									}
+								}
+								if (!test) {
+									placeArray.push({city:splitedTitle[2]});
+								}
+							}
+						}
+						var date = null;
+						var monthly = null;
+						var place = null;
+						if (splitedTitle[2]) {
+							if (splitedTitle[1].split('/').length == 2) {
+								date = new Date(splitedTitle[1]+"/01");
+								monthly = true;
+							} else {
+								date = new Date(splitedTitle[1]);
+								monthly = false;
+							}
+							place = splitedTitle[2];
+						} else {
+							place = splitedTitle[1];
+						}
+						playlists.push({
+							id: json.items[i].id,
+							channelId: json.items[i].snippet.channelId,
+							description: json.items[i].snippet.description,
+							title: json.items[i].snippet.title,
+							type: splitedTitle[0],
+							date: date,
+							monthly: monthly,
+							place: place,
+							publishedAt: json.items[i].snippet.publishedAt,
+							thumbnail: json.items[i].snippet.thumbnails.medium.url,
+						});
+					}
+					if (json.nextPageToken) {
+						getPlaylistsArray(channel, apiKey, json.nextPageToken);
+					} else {
+						getGeoLocation(channel, 0);
+					}
+				}
 			}
 		})
 	}
@@ -178,24 +184,26 @@ server.listen(config.port, config.ip, function () {
 					}
 					console.log("Youtube - Clé d'api valide pour "+pageToken);
 					var json = JSON.parse(body);
-					for (var i in json.items) {
-						if (json.items[i].snippet.thumbnails) {
-							var thumb = json.items[i].snippet.thumbnails.medium.url;
-						} else {
-							var thumb = "";
+					if (json.items){
+						for (var i in json.items) {
+							if (json.items[i].snippet.thumbnails) {
+								var thumb = json.items[i].snippet.thumbnails.medium.url;
+							} else {
+								var thumb = "";
+							}
+							videos.push({
+								id: json.items[i].id,
+								thumbnail: thumb,
+								title: json.items[i].snippet.title,
+								playlistId : playlists[id].id,
+								videoId: json.items[i].snippet.resourceId.videoId
+							});
 						}
-						videos.push({
-							id: json.items[i].id,
-							thumbnail: thumb,
-							title: json.items[i].snippet.title,
-							playlistId : playlists[id].id,
-							videoId: json.items[i].snippet.resourceId.videoId
-						});
-					}
-					if (json.nextPageToken) {
-						getPlaylistItems(id, channel, json.nextPageToken);
-					} else {
-						getPlaylistItems(id+1, channel);
+						if (json.nextPageToken) {
+							getPlaylistItems(id, channel, json.nextPageToken);
+						} else {
+							getPlaylistItems(id+1, channel);
+						}
 					}
 				}
 			})
