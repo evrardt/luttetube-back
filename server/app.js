@@ -30,8 +30,8 @@ var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
-var YOUTUBE_API_KEY = 'AIzaSyDrNpz22gF7QK2WJwjIKNBcJF3BabehGZQ';
-var GEOCODING_API_KEY = 'AIzaSyBeSiUAWHFrk2Ix0wG5APMjSZmh8rBe7Uo';
+var YOUTUBE_API_KEY = 'AIzaSyDrNpz22gF7QK2WJwjIKNBcJF3BabehGZQ'; //AIzaSyDrNpz22gF7QK2WJwjIKNBcJF3BabehGZQ
+var GEOCODING_API_KEY = 'AIzaSyBeSiUAWHFrk2Ix0wG5APMjSZmh8rBe7Uo';//AIzaSyBeSiUAWHFrk2Ix0wG5APMjSZmh8rBe7Uo
 var LUTTE_CHANNEL = 'UCFbqGcMqFybKLTgcxpSxwHw';
 var DOC_CHANNEL = 'UCBgt22CRGqx0AdQSgJZE07g';
 
@@ -59,7 +59,7 @@ server.listen(config.port, config.ip, function () {
 			var Playlist = require('./api/docPlaylist/docPlaylist.model');
 			typeOfSeed = "doc";
 		}
-		
+
 		var temp = typeArray;
 		typeArray = [];
 		for (var i in temp) {
@@ -275,13 +275,13 @@ server.listen(config.port, config.ip, function () {
 			multiplier: 1
 			}
 		];
-		
+
 		for (var i = 0; i < parts.length; i++) {
 			if (typeof matches[parts[i].pos] != 'undefined') {
 			durationInSec += parseInt(matches[parts[i].pos]) * parts[i].multiplier;
 			}
 		}
-		
+
 		// Hours extraction
 		if (durationInSec > 3599) {
 			output.push(parseInt(durationInSec / 3600));
@@ -291,7 +291,7 @@ server.listen(config.port, config.ip, function () {
 		output.push(('0' + parseInt(durationInSec / 60)).slice(-2));
 		// Seconds extraction with leading zero
 		output.push(('0' + durationInSec % 60).slice(-2));
-		
+
 		return output.join(':');
 	};
 });
