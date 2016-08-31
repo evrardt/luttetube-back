@@ -23,8 +23,8 @@ exports.create = function(req, res) {
   }
 
   function addToYoutube() {
-    var YOUTUBE_API_KEY = 'AIzaSyDrNpz22gF7QK2WJwjIKNBcJF3BabehGZQ';
-    var url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key='+YOUTUBE_API_KEY;
+    var API_KEY = require('../../../config/api-key');
+    var url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key='+API_KEY.GOOGLE;
     request.post({
         url:url,
         form: {

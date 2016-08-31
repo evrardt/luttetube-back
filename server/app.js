@@ -30,8 +30,7 @@ var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
-var YOUTUBE_API_KEY = 'AIzaSyDrNpz22gF7QK2WJwjIKNBcJF3BabehGZQ';
-var GEOCODING_API_KEY = 'AIzaSyBeSiUAWHFrk2Ix0wG5APMjSZmh8rBe7Uo';
+var API_KEY = require('./config/api-key');
 var LUTTE_CHANNEL = 'UCFbqGcMqFybKLTgcxpSxwHw';
 var DOC_CHANNEL = 'UCBgt22CRGqx0AdQSgJZE07g';
 
@@ -45,7 +44,7 @@ server.listen(config.port, config.ip, function () {
 	var videos = [];
 	var typeOfSeed = "";
 
-	getPlaylistsArray(LUTTE_CHANNEL, YOUTUBE_API_KEY);
+	getPlaylistsArray(LUTTE_CHANNEL, API_KEY.GOOGLE);
 
 	function seedDbForPlaylists(channel) {
 		if (channel === LUTTE_CHANNEL) {
@@ -81,7 +80,7 @@ server.listen(config.port, config.ip, function () {
 
 	function getGeoLocation(channel, id) {
 		if (id < placeArray.length) {
-			var url = "https://maps.googleapis.com/maps/api/geocode/json?key="+GEOCODING_API_KEY+"&address="+placeArray[id].city;
+			var url = "https://maps.googleapis.com/maps/api/geocode/json?key="+API_KEY.GOOGLE+"&address="+placeArray[id].city;
 			request(url, function (error, response, body) {
 				if (!error && response.statusCode == 200) {
 					var json = JSON.parse(body);
@@ -167,7 +166,7 @@ server.listen(config.port, config.ip, function () {
 
 	function getPlaylistItems(id, channel, pageToken) {
 		if (id < playlists.length) {
-			var url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId='+playlists[id].id+'&key='+YOUTUBE_API_KEY;
+			var url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId='+playlists[id].id+'&key='+API_KEY.GOOGLE;
 			if (pageToken) {
 				url += '&pageToken='+pageToken;
 			}
@@ -211,7 +210,7 @@ server.listen(config.port, config.ip, function () {
 						playlists = [];
 						playlists = [];
 						videos = [];
-						getPlaylistsArray(DOC_CHANNEL, YOUTUBE_API_KEY);
+						getPlaylistsArray(DOC_CHANNEL, API_KEY.GOOGLE);
 					});
 				} else if (channel === DOC_CHANNEL) {
 					var docVideo = require('./api/docVideo/docVideo.model');
@@ -226,7 +225,7 @@ server.listen(config.port, config.ip, function () {
 
 	function addDuration(id, callback) {
 		if (id < videos.length) {
-			var url = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&maxResults=50&id='+videos[id].videoId+'&key='+YOUTUBE_API_KEY;
+			var url = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&maxResults=50&id='+videos[id].videoId+'&key='+API_KEY.GOOGLE;
 			request(url, function (error, response, body) {
 				if (!error && response.statusCode == 200) {
 					var json = JSON.parse(body);
