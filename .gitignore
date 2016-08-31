@@ -1,4 +1,5 @@
 node_modules
 .idea
 /server/config/local.env.js
+/server/config/api-key.json
 npm-debug.log
