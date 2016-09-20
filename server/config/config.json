@@ -1,0 +1,28 @@
+{
+    "google_api" : [
+        {
+            "env": "development",
+            "key": "AIzaSyDrNpz22gF7QK2WJwjIKNBcJF3BabehGZQ"
+        },
+        {
+            "env": "production",
+            "key": "AIzaSyCgcZVT_yJ1pU5N5T0l11bR6J6ddQGn-rQ"
+        }
+    ],
+    "channels": [
+        {
+            "name": "lutte",
+            "displayedName": "Lutte",
+            "key": "UCFbqGcMqFybKLTgcxpSxwHw",
+            "title": "Playlists LutteTube",
+            "maps": true
+        },
+        {
+            "name": "doc",
+            "displayedName": "Documentaires",
+            "key": "UCBgt22CRGqx0AdQSgJZE07g",
+            "title": "Documentaires LutteTube",
+            "maps": false
+        }
+    ]
+}

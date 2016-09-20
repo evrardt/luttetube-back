@@ -31,7 +31,7 @@ exports.create = function(req, res) {
           snippet: {
             playlistId: playlistId,
             resourceId: {
-              videoId: req.body.submission.videoId,
+              link: req.body.submission.link,
               kind: "youtube#video"
             }
           }

@@ -8,7 +8,12 @@ var SubmissionSchema = new Schema({
   playlist: String,
   playlistId: String,
   link: String,
-  active: Boolean,
+  title: String,
+  duration: String,
+  embed: String,
+  thumbnail: String,
+  status: Number,
+  validatedBy: String,
   type: String,
   newCategory: Boolean,
   newPlaylist: Boolean
